@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>Adversarial Driving</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <link rel="stylesheet" href="dist/reveal.css">
+        <link rel="stylesheet" href="dist/theme/white.css" id="theme">
+        <link rel="stylesheet" href="plugin/highlight/monokai.css">
+        
+        <link rel="stylesheet" href="style.css">
+
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="plugin/chalkboard/style.css">
+        <link rel="stylesheet" href="plugin/customcontrols/style.css">
+
+    </head>
+
+    <body>
+
+        <div class="reveal" >
+
+            <div class="slides">
+
+                <section data-auto-animate>
+                    <span class="menu-title" style="display: none">Overview</span>
+                    <h3 class="r-fit-text">Adversarial Driving: Attacking End-to-End Autonomous Driving</h3>
+                    <p class="name" style="font-size: 25px;">Han Wu, Syed Yunas, Sareh Rowlands, Wenjie Ruan, and Johan Wahlstrom</p>
+                    <div class="r-vstack">
+                        <img class="" src="images/overview.png" width="70%">
+                    </div>
+                    <p style="font-size: 22px;"><i class="fab fa-github"></i> &nbsp; <a href="https://github.com/wuhanstudio/adversarial-driving">Source Code</a></p>
+                    <aside class="notes">
+                        Hello, everyone, I will present Adversarial Driving: Attacking End-to-End Autonomous Driving Systems. Autonomous Driving is one of the most challenging tasks in robotic applications. There is a growing trend of employing end-to-end driving models.
+                    </aside>
+                </section>
+
+                <section>
+                    <p class="r-fit-text">End-to-End driving models lead to smaller systems and better performance.</p>
+                    <div class="r-vstack">
+                        <img src="images/self-driving.png" width="70%"/>
+                        <div class="fragment">
+                            <video  autoplay muted loop width="40%">
+                                <source data-src="images/nvidia.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <p style="font-size: 20px; margin-top: 0;"> The NVIDIA End-to-End Driving Model </p>
+                            <p class="fragment" style="font-size: 25px;">Image classification models that use deep neural networks are vulnerable to adversarial attack.</p>
+                        </div>
+                    </div>
+                    <aside class="notes">
+                        End-to-End driving models lead to smaller systems and better performance. 
+                        <!-- because we don't need to train seperate models for different modules. Besides, we have autonomous driving simulators where we can test end-to-end driving models safely in a simulated environment.  -->
+                        Researchers from NVIDIA even tested their end-to-end driving models on a real autonomous driving car.
+
+                        But are we ready to embrace end-to-end driving models in a safety-critical application? Proir research demonstrated image classification models that use deep neural networks are vulnerable to adversarial attack.</p> while the driving model is a regression model. In our research, we have demonstrated that it is possible to attack the end-to-end regressional driving model as well in real time.
+                </section>
+
+                <section data-background-video="images/no_attack.mp4" data-background-video data-background-video-muted data-menu-title="Demo Video">
+                    <aside class="notes">
+                        It is unsafe to attack a real autonomous driving car. We first tested our attacks in a autonomous driving simulator. Here we have the NVIDIA end-to-end driving model which was tested on a real autonomous driving car. The driving model takes image from the camera as input and outputs the steering angle directly.
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Random Noises</h2>
+                    <aside class="notes">
+                        Before applying our attacks, we apply random noises to the input image. 
+                    </aside>
+                </section>
+
+                <section data-background-video="images/random_noise.mp4" data-background-video data-background-video-muted>
+                    <aside class="notes">
+                        As you can see here, after applying random noises, the output steering angle with and without random noises overlap with each other. They are very close. As a result, random noises have little effect on the end-to-end driving model.
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Image-Specific Attack</h2>
+                    <aside class="notes">
+                        We propose two online white-box adversarial attacks against the end-to-end driving model. We attack the driving model by applying adversarial perturbations to the input image.
+                    </aside>
+                </section>
+
+                <section data-background-video="images/image_specific.mp4" data-background-video data-background-video-muted>
+                    <aside class="notes">
+                        The image-specfic attack generates adversarial perturbations for each input image. This is a very strong attack. As you can see here, the vehicle gets out of control immediately after applying the adversarial perturbations.
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Image-Agnostic Attack</h2>
+                    <aside class="notes">
+                        On the other hand, the image-agnostic attack generates a single adversarial perturbations that attacks all input images.
+                    </aside>
+                </section>
+                
+                <section data-background-video="images/image_agnostic.mp4" data-background-video data-background-video-muted>
+                    <aside class="notes">
+                        The image-agnostic attack is like an invisible force that makes the vehicle difficult to make a turn at corners, which could cause traffic accidents at some critical points. Like this one. That was close, isn't it?
+                    </aside>
+                </section>
+
+                <!-- <section>
+                    <div class="r-hstack">
+                        <img src="images/image_specific.png" width="40%" />
+                        <img src="images/image_agnostic.png" class="fragment" width="40%" />
+                    </div>
+                </section> -->
+
+                <section>
+                    <h2>Adversarial Driving in ROS</h2>
+                    <aside class="notes">
+                        We also evaluated our attacks in ROS, or Robot Operating System. We also achieve adversarial attacks in the Gazebo Simulator. 
+                    </aside>
+                </section>
+
+                <section data-background-video="images/gazebo.mp4" data-background-video data-background-video-muted>
+                    <aside class="notes">
+                    </aside>
+                </section>
+                
+                <section>
+                    <h2>Thanks</h2>
+                    <div class="r-vstack">
+                        <p><a href="https://driving.wuhanstudio.uk/">https://driving.wuhanstudio.uk</a></p>
+                    </div>
+                    <img src="images/qrcode.png" width="25%" />
+                    <p style="font-size: 22px;"><i class="fab fa-github"></i> &nbsp; <a href="https://github.com/wuhanstudio/adversarial-driving">Source Code</a></p>
+
+                    <aside class="notes">
+                        In conclusion, our research demonstrated that it is possible to attack the end-to-end driving model in real-time. Are we ready to embrace end-to-end driving models in safety-critical applications? Thank you.
+                    </aside>
+                </section>
+
+            </div>
+        </div>
+
+        <script src="dist/reveal.js"></script>
+        <script src="plugin/chalkboard/plugin.js"></script>
+        <script src="plugin/customcontrols/plugin.js"></script>
+        <script src="plugin/menu/menu.js"></script>
+        <script src="plugin/math/math.js"></script>
+        <script src="plugin/highlight/highlight.js"></script>
+
+        <script>
+            Reveal.initialize({
+                center: true,
+                hash: true,
+                plugins: [ RevealHighlight, RevealMath, RevealMenu, RevealChalkboard, RevealCustomControls ],
+                mathjax: 'https://cdn.jsdelivr.net/gh/mathjax/mathjax@2.7.8/MathJax.js',
+                config: 'TeX-AMS_HTML-full',
+                // pass other options into `MathJax.Hub.Config()`
+                TeX: { Macros: { RR: "{\\bf R}" } },
+                menu: {
+                    hideMissingTitles: true,
+                },
+                chalkboard: {
+                    boardmarkerWidth: 3,
+                    chalkWidth: 7,
+                    chalkEffect: 1.0,
+                    storage: null,
+                    src: null,
+                    readOnly: undefined,
+                    transition: 800,
+                    theme: "chalkboard",
+                    background: [ 'rgba(127,127,127,.1)' , path + 'img/blackboard.png' ],
+                    grid: { color: 'rgb(50,50,10,0.5)', distance: 80, width: 2},
+                    eraser: { src: path + 'img/sponge.png', radius: 20},
+                    boardmarkers : [
+                            { color: 'rgba(100,100,100,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                            { color: 'rgba(30,144,255, 1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                            { color: 'rgba(220,20,60,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                            { color: 'rgba(50,205,50,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                            { color: 'rgba(255,140,0,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                            { color: 'rgba(150,0,20150,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                            { color: 'rgba(255,220,0,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+                    ],
+                    chalks: [
+                            { color: 'rgba(255,255,255,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                            { color: 'rgba(96, 154, 244, 0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                            { color: 'rgba(237, 20, 28, 0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                            { color: 'rgba(20, 237, 28, 0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                            { color: 'rgba(220, 133, 41, 0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                            { color: 'rgba(220,0,220,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                            { color: 'rgba(255,220,0,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+                    ]
+                },
+                customcontrols: {
+                    controls: [
+                        { icon: '<i class="fa fa-pen-square"></i>',
+                        title: 'Toggle chalkboard (B)',
+                        action: 'RevealChalkboard.toggleChalkboard();'
+                        },
+                        { icon: '<i class="fa fa-pen"></i>',
+                        title: 'Toggle notes canvas (C)',
+                        action: 'RevealChalkboard.toggleNotesCanvas();'
+                        }
+                    ]
+                },
+                showNotes: true,
+            });
+        </script>
+    </body>
+</html>
